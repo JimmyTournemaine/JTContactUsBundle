@@ -2,25 +2,34 @@
 
 namespace JT\ContactUsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JT\ContactUsBundle\Model\Contact;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use JT\ContactUsBundle\Form\Type\ContactType;
 
 class ContactController extends Controller
 {
 
     public function showAction(Request $request)
     {
-        $contact = new Contact();
+        $anonymous = $this->getParameter('jt_contact_us.anonymous');
+        if($anonymous === false && $this->isGranted('IS_AUTHENTICATED_REMEMBERED') === false){
+            throw $this->createAccessDeniedException();
+        }
 
+        $contactClass = $this->getParameter('jt_contact_us.class.contact');
+        $formClass = $this->getParameter('jt_contact_us.form.contact');
+        $contact = new $contactClass;
         $form = $this
-            ->createForm(ContactType::class, $contact)
+            ->createForm($formClass, $contact)
             ->handleRequest($request)
         ;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($contact);
+            $managerService = $this->getParameter('jt_contact_us.manager');
+            $manager = $this->get($managerService);
+            $manager->send($contact);
+
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('JTContactUsBundle:Contact:show.html.twig', array(

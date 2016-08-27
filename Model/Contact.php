@@ -10,114 +10,54 @@ use JT\ContactUsBundle\Model\ContactInterface;
  */
 class Contact implements ContactInterface
 {
-    /**
-     * @var string
-     */
-    private $subject;
+    protected $name;
+    protected $email;
+    protected $subject;
+    protected $content;
 
-    /**
-     * @var string
-     */
-    private $content;
-
-    /**
-     * @var string
-     */
-    private $email;
-
-    private $extra = array();
-
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getName()
     {
-        return $this->id;
+        return $this->name;
     }
 
-    /**
-     * Set subject
-     *
-     * @param string $subject
-     *
-     * @return Contact
-     */
-    public function setSubject($subject)
+    public function setName($name)
     {
-        $this->subject = $subject;
-
+        $this->name = $name;
         return $this;
     }
 
-    /**
-     * Get subject
-     *
-     * @return string
-     */
-    public function getSubject()
-    {
-        return $this->subject;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Contact
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Contact
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
     public function getEmail()
     {
         return $this->email;
     }
 
-    public function setExtra(array $extra)
+    public function setEmail($email)
     {
-        $this->extra = $extra;
+        $this->email = $email;
+        return $this;
     }
 
-    public function getExtra()
+    public function getSubject()
     {
-        return $this->extra;
+        return $this->subject;
     }
+
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+        return $this;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    public function setContent($content)
+    {
+        $this->content = $content;
+        return $this;
+    }
+
 }
 

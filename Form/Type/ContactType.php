@@ -1,40 +1,63 @@
 <?php
 namespace JT\ContactUsBundle\Form\Type;
 
-use JT\ContactUsBundle\Form\Subscriber\AddEmailSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 class ContactType extends AbstractType
 {
-    private $subscriber;
+    private $contactClass;
+    private $subjectClass;
 
-    public function __construct(AddEmailSubscriber $subscriber){
-        $this->subscriber = $subscriber;
+    public function __construct($contactClass, $subjectClass){
+        $this->contactClass = $contactClass;
+        $this->subjectClass = $subjectClass;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('subject', TextType::class, array(
-                'label' => 'contact.labels.subject',
-                'translation_domain' => 'JTContactUsBundle'
+            ->add('name', TextType::class, array(
+                'label' => 'contact.labels.name',
             ))
+            ->add('email', EmailType::class, array(
+                'label' => 'contact.labels.name',
+            ))
+        ;
+
+        if(null === $this->subjectClass) {
+            $builder->add('subject', TextType::class, array(
+                    'label' => 'contact.labels.subject',
+            ));
+        } else {
+            $builder->add('subject', EntityType::class, array(
+                'label' => 'contact.labels.subject',
+                'class' => $this->subjectClass,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('s')->orderBy('s.label');
+                },
+                'choice_label' => 'label',
+            ));
+        }
+
+        $builder
             ->add('content', TextareaType::class, array(
                 'label' => 'contact.labels.content',
-                'translation_domain' => 'JTContactUsBundle'
             ))
-            ->addEventSubscriber($this->subscriber);
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'class' => 'JT\ContactUsBundle\Model\Contact'
+            'class' => $this->contactClass,
+            'translation_domain' => 'JTContactUsBundle'
         ));
     }
 }
