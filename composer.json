@@ -1,0 +1,20 @@
+{
+	"name": "jimmytournemaine/contact-us-bundle",
+	"type": "bundle",
+	"license": "MIT",
+	"description": "Just edit your config.yml to create a \"Contact Us\" page.",
+	"authors": [
+		{
+			"name": "Jimmy Tournemaine",
+			"email": "jimmy.tournemaine@yahoo.fr",
+			"role": "developer"
+		}
+	],
+	"autoload": {
+		"psr-4": { "JT\\ContactUsBundle\\": "" }
+	},
+	"require": {
+		"php": ">=5.5.9",
+		"symfony/symfony": ">=3.0.0"
+	}
+}
