@@ -41,16 +41,19 @@ class JTContactUsExtension extends Extension
 
 		/* Set strategy */
 		$strategy = $config['strategy'];
+		$receiver = $config['delivery_address'];
+
+		/* Mail strategy */
 		if($strategy == 'mail')
 		{
 			if($classes['subject'] == null && $receiver == null){
 				throw new \LogicException('Your config is not able to send a mail. Define a subject entity or a delivery address');
 			}
-			$container->setParameter('jt_contact_us.delivery_address', $config['delivery_address']);
-			
+			$container->setParameter('jt_contact_us.delivery_address', $receiver);
+
 			$loader->load('services/mail.yml');
 		/* ORM options config */
-		} 
+		}
 		elseif($strategy == 'orm') {
 			$container->setParameter('jt_contact_us.displayed_address', $config['displayed_address']);
 			$loader->load('services/orm.yml');
