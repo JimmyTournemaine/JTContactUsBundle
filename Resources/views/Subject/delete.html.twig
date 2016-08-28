@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain "JTContactUsBundle" %}
+{% block body %}
+<h1>{{ 'subject.delete.title'|trans }}</h1>
+{{ form_start(form }}
+	<p>{{ 'subject.delete.confirm'|trans({'%label%': subject.label}) }}</p>
+	<a href="{{ path('jt_contact_us_subject_index') }}">{{ 'subject.delete.back'|trans }}</a>
+	<input type="submit" value="{{ 'subject.delete.confirm'|trans }}" />
+{{ form_end(form) }}
+{% endblock body %}

@@ -1,0 +1,4 @@
+services:
+    jt_contact_us.manager:
+        class: JT\ContactUsBundle\Manager\MailManager
+		arguments: ["@mailer", "%jt_contact_us.delivery_address%"]

@@ -1,0 +1,6 @@
+jt_contact_us_contact:
+    resource: @JTContactUsBundle/Resources/config/routing/contact.yml
+
+jt_contact_us_subject:
+    resource: @JTContactUsBundle/Resources/config/routing/subject.yml
+    prefix: /subject

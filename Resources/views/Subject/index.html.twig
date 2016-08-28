@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain "JTContactUsBundle" %}
+{% block body %}
+	<h1>{{ 'subject.index.title'|trans }}</h1>
+
+	<p><a href="{{ path('jt_contact_us_bundle_subject_new') }}">{{ 'subject.index.new'|trans }}</a></p>
+
+	<table>
+		<thead><tr>
+			<td>{{ 'subject.index.label'|trans }}</td>
+			<td>{{ 'subject.index.to'|trans }}</td>
+			<td>{{ 'subject.index.actions'|trans }}</td>
+		</tr></thead>
+		<tbody>
+		{% for subject in subjects %}
+			<tr>
+				<td>{{ subject.label }}</td>
+				<td>{{ subject.to }}</td>
+				<td>
+					<a href="{{ path('jt_contact_us_subject_edit', {'id': subject.id}) }}">
+						{{ 'subject.index.edit'|trans }}
+					</a>
+					<a href="{{ path('jt_contact_us_subject_delete', {'id': subject.id}) }}">
+						{{ 'subject.index.delete'|trans }}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

@@ -1,0 +1,21 @@
+jt_contact_us_subject_index:
+    path:     /
+    defaults: { _controller: "JTContactUsBundle:Subject:index" }
+
+jt_contact_us_subject_new:
+    path:     /new
+    defaults: { _controller: "JTContactUsBundle:Subject:new" }
+
+jt_contact_us_subject_edit:
+    path:     /{id}
+    defaults: { _controller: "JTContactUsBundle:Subject:edit" }
+	requirements:
+        id: [0-9]+
+
+jt_contact_us_subject_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "JTContactUsBundle:Subject:delete" }
+	requirements:
+        id: [0-9]+
+
+

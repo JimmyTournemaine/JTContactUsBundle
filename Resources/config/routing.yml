@@ -1,3 +1,0 @@
-jt_contact_us_show:
-    path:     /
-    defaults: { _controller: "JTContactUsBundle:Contact:show" }

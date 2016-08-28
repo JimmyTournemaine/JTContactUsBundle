@@ -1,0 +1,13 @@
+services:
+    
+    jt_contact_us.form.type.contact:
+        class: JT\ContactUsBundle\Form\Type\ContactType
+        arguments: ["%jt_contact_us.class.contact%", "%jt_contact_us.class.subject%"]
+        tags:
+            - { name: form.type }
+
+    jt_contact_us.form.type.subject:
+        class: JT\ContactUsBundle\Form\Type\SubjectType
+        arguments: ["%jt_contact_us.class.subject%", "%jt_contact_us.class.user%"]
+        tags:
+            - { name: form.type }

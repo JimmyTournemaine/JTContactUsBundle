@@ -1,9 +1,18 @@
 <?php
 namespace JT\ContactUsBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\MappedSuperclass
+ */
 class Subject implements SubjectInterface
 {
+	/**
+	 * @ORM\Column(name="label", type="string", length="31")
+	 */
     protected $label;
+
     protected $to;
 
     public function getLabel()

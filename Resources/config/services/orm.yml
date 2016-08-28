@@ -1,0 +1,4 @@
+services:
+    jt_contact_us.manager:
+        class: JT\ContactUsBundle\Manager\ORMManager
+		arguments: ["@doctrine.entity_manager"]

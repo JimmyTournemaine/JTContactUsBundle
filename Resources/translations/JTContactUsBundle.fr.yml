@@ -4,3 +4,26 @@ contact:
         subject: Sujet
         content: Message
         send: Envoyer
+subject:
+    labels:
+        label: Intitulé
+        to: Destinataire
+    index:
+        title: Liste des sujets de contact
+        new: Ajouter un sujet
+        label: Intitulé
+        to: Destinataire
+        actions: Actions
+        edit: Modifier
+        delete: Supprimer
+    new:
+        title: Nouveau sujet
+        submit: Ajouter
+    edit:
+        title: Modifier
+        update: Mettre à jour
+    delete:
+        title: Suppression
+        confirm: Êtes vous certains de vouloir supprimer %label% ?
+        submit: Supprimer
+        back: Annuler

@@ -21,16 +21,41 @@ class JTContactUsExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
-        $container->setParameter('jt_contact_us.email_property', $config['email_property']);
-        $container->setParameter('jt_contact_us.extra_properties', $config['extra_properties']);
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-    }
 
-    private function checkConfig(array $config)
-    {
+		/* Classes */
+		$classes = $config['class'];
+		$container->setParameter('jt_contact_us.class.contact', $classes['contact']);
+		$container->setParameter('jt_contact_us.class.subject', $classes['subject']);
+		$container->setParameter('jt_contact_us.class.user', $classes['user']);
 
+		/* Forms */
+		$forms = $config['form'];
+		$container->setParameter('jt_contact_us.form.contact', $forms['contact']);
+		$container->setParameter('jt_contact_us.form.subject', $forms['subject']);
+
+		/* Anonymous */
+		$container->setParameter('jt_contact_us.anonymous', $config['anonymous']);
+		/* Mailer */
+		$container->setParameter('jt_contact_us.mailer', $config['mailer']);
+
+		/* Set strategy */
+		$strategy = $config['strategy'];
+		if($strategy == 'mail')
+		{
+			if($classes['subject'] == null && $receiver == null){
+				throw new \LogicException('Your config is not able to send a mail. Define a subject entity or a delivery address');
+			}
+			$container->setParameter('jt_contact_us.delivery_address', $config['delivery_address']);
+			
+			$loader->load('services/mail.yml');
+		/* ORM options config */
+		} 
+		elseif($strategy == 'orm') {
+			$container->setParameter('jt_contact_us.displayed_address', $config['displayed_address']);
+			$loader->load('services/orm.yml');
+		}
+
+        $loader->load('services/services.yml');
     }
 }
