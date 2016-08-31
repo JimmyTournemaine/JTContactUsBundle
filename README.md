@@ -65,4 +65,4 @@ jt_contact_us:
 ```
 
 That's it. With this minimal configuration you will to be contacted by your users.
-You've got the simpliest example. For advanced configuration choose betwenn [**mail**](doc/mail_1.md) and [**ORM**](doc/orm_1.md) management.
+You've got the simpliest example. For advanced configuration choose betwenn [**mail**](Doc/set_your_strategy_mail_1.md) and [**ORM**](Doc/set_your_strategy_orm_1.md) management.
