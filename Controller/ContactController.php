@@ -4,7 +4,13 @@ namespace JT\ContactUsBundle\Controller;
 use JT\ContactUsBundle\Model\Contact;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use JT\ContactUsBundle\Event\ContactSentEvent;
 
+/**
+ * Controller to contact form
+ *
+ * @author Jimmy Tournemaine <jimmy.tournemaine@yahoo.fr>
+ */
 class ContactController extends Controller
 {
 
@@ -19,6 +25,7 @@ class ContactController extends Controller
 		/* Create entity and form */
         $contactClass = $this->getParameter('jt_contact_us.class.contact');
         $formClass = $this->getParameter('jt_contact_us.form.contact');
+
         $contact = new $contactClass;
         $form = $this
             ->createForm($formClass, $contact)
@@ -27,12 +34,13 @@ class ContactController extends Controller
 
 		/* Form validation */
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->get('jt_contact_us.manager')->send($contact);
-			$event = new ContactSentEvent($contact, $this->generateUrl('jt_contact_us_form'));
+            $this->get('jt_contact_us.manager')->send($contact);
+            $this->addFlash('notice', $this->get('translator')->trans('contact.flash.sent', [], 'JTContactUsBundle'));
+			$event = new ContactSentEvent($contact, $this->redirectToRoute('jt_contact_us_contact_form'));
 			$dispatcher = $this->get('event_dispatcher');
 			$dispatcher->dispatch(ContactSentEvent::NAME, $event);
 
-            return $this->redirectToRoute($event->getRedirectionUrl());
+            return $event->getResponse();
         }
 
         return $this->render('JTContactUsBundle:Contact:form.html.twig', array(

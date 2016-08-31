@@ -1,43 +1,78 @@
 <?php
 namespace JT\ContactUsBundle\Mailer;
 
-class Mailer implements MailerInterface
+use JT\ContactUsBundle\Model\ContactInterface;
+use JT\ContactUsBundle\Model\SubjectInterface;
+
+class Mailer implements AnswerMailerInterface
 {
     private $mailer;
-	private $message;
+	private $addresses;
+	private $displayed;
 
-    public function __construct(\Swift_Mailer $mailer)
-    {
+	public function __construct(\Swift_Mailer $mailer, $deliveryAddresses, $displayed = null)
+	{
 		$this->mailer = $mailer;
-		$this->message = \Swift_Message::getInstance();
-    }
-
-	public function setFrom(array $from)
-	{
-		$this->message->setFrom($from);
-	}
-
-	public function setContent($content)
-	{
-		$this->message->setBody($content);
+		$this->addresses = $deliveryAddresses;
+		$this->displayed = $displayed;
 	}
 
     /**
-     * @see \JT\ContactUsBundle\Mailer\MailerInterface::send()
+     * @see \JT\ContactUsBundle\Manager\ManagerInterface::send()
      */
     public function send(ContactInterface $contact)
     {
-		/* Set the Subject */
-		if($contact->getSubject() instanceof SubjectInterface)
-		{
-			$this->message->setSubject($contact->getSubject()->getLabel());
+        /* Common part */
+        $message = \Swift_Message::newInstance()
+			->setFrom(array($contact->getEmail() => $contact->getName()))
+			->setBody($contact->getContent())
+		;
+
+		/* Set subject */
+		$subject = $contact->getSubject();
+		if($subject instanceof SubjectInterface){
+			$message->setSubject($subject->getLabel());
 		} else {
-			$this->message->setSubject($contact->getSubject());
+			$message->setSubject($subject);
 		}
 
-		/* TODO */
-		$this->message->setTo(array($contact->getName() => $contact->getEmail());
-		$this->message->setBody($contact->setContent);
-        $this->mailer->send($this->message);
+		/* Set receiver */
+		if($subject instanceof SubjectInterface){
+		    $message->setTo($subject->getTo());
+		} else {
+		    $message->setTo($this->deliveryAddresses[0]);
+		}
+
+		$this->mailer->send($message);
     }
+
+
+
+     /**
+      * @see \JT\ContactUsBundle\Mailer\AnswerMailerInterface::answer()
+      */
+     public function answer(ContactInterface $contact, $answer, $hideInfos)
+     {
+         if ($hideInfos) {
+             if (isset($this->displayed['name'])){
+                 $from = array($this->displayed['email'] => $this->displayed['name']);
+             } else {
+                 $from = $this->displayed['email'];
+             }
+         } else {
+             $from = ($contact->getSubject() instanceof SubjectInterface) ? $contact->getSubject()->getTo() : $this->deliveryAddresses[0];
+         }
+
+         $subject = 'Re: ' . (($contact->getSubject() instanceof SubjectInterface) ? $contact->getSubject()->getLabel() : $contact->getSubject());
+
+         $message = \Swift_Message::newInstance()
+            ->setFrom($from)
+            ->setTo(array($contact->getEmail() => $contact->getName()))
+            ->setSubject($subject)
+            ->setBody($answer)
+         ;
+
+         $this->mailer->send($message);
+     }
+
 }

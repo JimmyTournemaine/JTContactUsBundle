@@ -9,13 +9,13 @@ jt_contact_us_subject_new:
 jt_contact_us_subject_edit:
     path:     /{id}
     defaults: { _controller: "JTContactUsBundle:Subject:edit" }
-	requirements:
-        id: [0-9]+
+    requirements:
+        id: "[0-9]+"
 
 jt_contact_us_subject_delete:
     path:     /{id}/delete
     defaults: { _controller: "JTContactUsBundle:Subject:delete" }
-	requirements:
-        id: [0-9]+
+    requirements:
+        id: "[0-9]+"
 
 

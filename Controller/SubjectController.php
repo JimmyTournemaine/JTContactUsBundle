@@ -1,7 +1,6 @@
 <?php
 namespace JT\ContactUsBundle\Controller;
 
-use JT\ContactUsBundle\Model\Contact;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,7 +11,7 @@ class SubjectController extends Controller
 		$subjectClass = $this->getParameter('jt_contact_us.class.subject');
 		$subjects = $this->getDoctrine()->getManager()->getRepository($subjectClass)->findAll();
 
-		return $this->render('JTcontactUsBundle:Subject:index.html.twig', array(
+		return $this->render('JTContactUsBundle:Subject:index.html.twig', array(
 				'subjects' => $subjects,
 		));
 	}
@@ -31,7 +30,7 @@ class SubjectController extends Controller
 			$em->persist($subject);
 			$em->flush();
 
-			return $this->redirectToRoute('jt_contact_us_subject_index')
+			return $this->redirectToRoute('jt_contact_us_subject_index');
 		}
 
 		return $this->render('JTContactUsBundle:Subject:new.html.twig', array(
@@ -44,10 +43,10 @@ class SubjectController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$subjectClass = $this->getParameter('jt_contact_us.class.subject');
 		$formType = $this->getParameter('jt_contact_us.form.subject');
-		
+
 		if(null == $subject = $em->getRepository($subjectClass)->find($id)) {
 			throw $this->createNotFoundException();
-		} 
+		}
 
 		$form = $this->createForm($formType, $subject)->handleRequest($request);
 

@@ -1,6 +1,45 @@
 contact:
     labels:
-        email: Votre email
-        subject: Subject
-        content: Message
-        send: Send
+        name:     Full nae
+        email:    Email
+        subject:  Subject
+        content:  Message
+        send:     Send
+    flash:
+        sent:     Your message has been sent.
+    form:
+        title:    Contact Us
+orm:
+    index:
+        title:    Contacts list
+        name:     Sender
+        subject:  Subject
+        at:       Date
+        answer:   Answer
+answer:
+    title:        Answer
+    labels:
+        content:  Your Answer
+subject:
+    back:         Back
+    labels:
+        label:    Label
+        to:       Receiver
+    index:
+        title:    Subjects list
+        new:      New subject
+        label:    Label
+        to:       Receiver
+        actions:  Actions
+        edit:     Edit
+        delete:   Delete
+    new:
+        title:    New Subject
+        submit:   Add
+    edit:
+        title:    Edit
+        update:   Update
+    delete:
+        title:    Delete
+        confirm:  Do you really want to remove %label% ?
+        submit:   Delete

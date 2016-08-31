@@ -2,16 +2,18 @@
 namespace JT\ContactUsBundle\Manager;
 
 use JT\ContactUsBundle\Model\ContactInterface;
+use JT\ContactUsBundle\Model\SubjectInterface;
+use JT\ContactUsBundle\Mailer\MailerInterface;
 
 class MailManager implements ManagerInterface
 {
     private $mailer;
-	private $addr;
+	private $addresses;
 
-	public function __construct(\Swift_Mailer $mailer, $deliveryAddress)
+	public function __construct(MailerInterface $mailer, $deliveryAddresses)
 	{
 		$this->mailer = $mailer;
-		$this->addr = $deliveryAddress;
+		$this->addresses = $deliveryAddresses;
 	}
 
     /**
@@ -19,17 +21,25 @@ class MailManager implements ManagerInterface
      */
     public function send(ContactInterface $contact)
     {
+        /* Common part */
         $message = \Swift_Message::newInstance()
-			->setFrom(array($contact->getName() => $contact->getEmail())
-			->setTo($addr)
-			->setBody($contact->getContent(), 'text/plain')
+			->setFrom(array($contact->getEmail() => $contact->getName()))
+			->setBody($contact->getContent())
 		;
 
+		/* Set subject */
 		$subject = $contact->getSubject();
 		if($subject instanceof SubjectInterface){
 			$message->setSubject($subject->getLabel());
 		} else {
 			$message->setSubject($subject);
+		}
+
+		/* Set receiver */
+		if($subject instanceof SubjectInterface){
+		    $message->setTo($subject->getTo());
+		} else {
+		    $message->setTo($this->deliveryAddresses[0]);
 		}
 
 		$this->mailer->send($message);

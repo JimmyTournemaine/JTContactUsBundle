@@ -1,4 +1,10 @@
 services:
     jt_contact_us.manager:
         class: JT\ContactUsBundle\Manager\ORMManager
-		arguments: ["@doctrine.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "@jt_contact_us.mailer"]
+        
+    jt_contact_us.form.type.answer:
+        class: JT\ContactUsBundle\Form\Type\AnswerType
+        arguments: ["%jt_contact_us.hide_infos%"]
+        tags:
+            - { name: form.type }

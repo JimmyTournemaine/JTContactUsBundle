@@ -2,12 +2,19 @@ services:
     
     jt_contact_us.form.type.contact:
         class: JT\ContactUsBundle\Form\Type\ContactType
-        arguments: ["%jt_contact_us.class.contact%", "%jt_contact_us.class.subject%"]
+        arguments: ["@doctrine.orm.entity_manager", "%jt_contact_us.class.contact%", "%jt_contact_us.class.subject%"]
         tags:
             - { name: form.type }
 
     jt_contact_us.form.type.subject:
         class: JT\ContactUsBundle\Form\Type\SubjectType
-        arguments: ["%jt_contact_us.class.subject%", "%jt_contact_us.class.user%"]
+        arguments: ["%jt_contact_us.class.subject%", "%jt_contact_us.delivery_addresses%"]
         tags:
             - { name: form.type }
+            
+    jt_contact_us.mailer:
+        class: JT\ContactUsBundle\Mailer\Mailer
+        arguments:
+            - "@mailer"
+            - "%jt_contact_us.delivery_addresses%"
+            - "@=container.hasParameter('jt_contact_us.displayed_infos') ? parameter('jt_contact_us.displayed_infos') : null"

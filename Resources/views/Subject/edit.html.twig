@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 {% trans_default_domain "JTContactUsBundle" %}
+{% block title %}{{ 'subject.edit.title'|trans }}{% endblock %}
 {% block body %}
 <h1>{{ 'subject.edit.title'|trans }}</h1>
-{{ form_start(form }}
+{{ form_start(form) }}
+	{{ form_widget(form) }}
+	<a href="{{ path('jt_contact_us_subject_index') }}">{{ 'subject.back'|trans }}</a>
 	<input type="submit" value="{{ 'subject.edit.update'|trans }}" />
 {{ form_end(form) }}
 {% endblock body %}

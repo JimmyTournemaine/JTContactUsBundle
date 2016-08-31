@@ -1,14 +1,12 @@
 <?php
 namespace JT\ContactUsBundle\Mailer;
 
+use JT\ContactUsBundle\Model\ContactInterface;
+
 interface MailerInterface
 {
-	public function setFrom(array $from);
-
-	public function setContent($content);
-
-    /**
+	/**
      * Send the message
      */
-    public function send();
+    public function send(ContactInterface $contact);
 }

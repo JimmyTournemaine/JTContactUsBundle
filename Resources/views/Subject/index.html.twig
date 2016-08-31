@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 {% trans_default_domain "JTContactUsBundle" %}
+{% block title %}{{ 'subject.index.title'|trans }}{% endblock %}
 {% block body %}
 	<h1>{{ 'subject.index.title'|trans }}</h1>
 
-	<p><a href="{{ path('jt_contact_us_bundle_subject_new') }}">{{ 'subject.index.new'|trans }}</a></p>
+	<p><a href="{{ path('jt_contact_us_subject_new') }}">{{ 'subject.index.new'|trans }}</a></p>
 
 	<table>
 		<thead><tr>

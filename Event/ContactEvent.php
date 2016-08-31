@@ -2,6 +2,7 @@
 namespace JT\ContactUsBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use JT\ContactUsBundle\Model\ContactInterface;
 
 abstract class ContactEvent extends Event
 {

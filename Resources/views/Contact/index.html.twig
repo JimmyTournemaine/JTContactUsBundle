@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+{% trans_default_domain "JTContactUsBundle" %}
+{% block title %}{{ 'orm.index.title'|trans }}{% endblock %}
+{% block body %}
+<h1>{{ 'orm.index.title'|trans }}</h1>
+
+{% if contacts|length > 0 %}
+    <table>
+      <thead>
+        <tr><th>{{ 'orm.index.name'|trans }}</th><th>{{ 'orm.index.subject'|trans }}</th><th>{{ 'orm.index.at'|trans }}</th><th></th></tr>
+      </thead>
+      <tbody>
+      {% for contact in contacts %}
+      	<tr>
+      		<td>{{ contact.name }}</td><td>{{ contact.subject }}</td><td>{{ contact.sentAt|date('Y-m-d H:i') }}</td>
+      		<td><a href="{{ path('jt_contact_us_orm_contact_answer', {'id': contact.id}) }}">{{ 'orm.index.answer'|trans }}</a>
+      	</tr>
+      {% endfor %}
+      </tbody>
+    </table>
+{% else %}
+	<p>{{ 'orm.index.none'|trans }}</p>
+{% endif %}
+{% endblock %}

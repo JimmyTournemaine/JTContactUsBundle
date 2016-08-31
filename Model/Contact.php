@@ -3,6 +3,7 @@
 namespace JT\ContactUsBundle\Model;
 
 use JT\ContactUsBundle\Model\ContactInterface;
+use AppBundle\Entity\Subject;
 
 /**
  * Contact

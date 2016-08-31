@@ -12,7 +12,7 @@ class ORMContactController extends Controller
 		$contactClass = $this->getParameter('jt_contact_us.class.contact');
 		$contacts = $this->getDoctrine()->getManager()->getRepository($contactClass)->findAll();
 
-		return $this->render('JTcontactUsBundle:Contact:index.html.twig', array(
+		return $this->render('JTContactUsBundle:Contact:index.html.twig', array(
 				'contacts' => $contacts,
 		));
 	}
@@ -26,22 +26,17 @@ class ORMContactController extends Controller
 			throw $this->createNotFoundException();
 		}
 
-		$form = $this->createForm()
-			->add('content', TextareaType::class)
-			->getForm()
+		$formType = $this->getParameter('jt_contact_us.form.answer');
+		$form = $this->createForm($formType)
 			->handleRequest($request)
 		;
 
 		if($form->isSubmitted() && $form->isValid())
 		{
 			$data = $form->getData();
-			$email = ($this->getParameter('jt_contact_us.displayed_address')) ?? $this->getUser()->getEmail();
-			$mailer = $this->get('jt_contact_us.mailer')->setBody($data['content'])->send();
+			$this->get('jt_contact_us.manager')->answer($contact, $data['content'], $data['hide']);
 
-			$em->remove($contact);
-			$em->flush();
-
-			return $this->redirectToRoute('jt_contact_us_orm_index');
+			return $this->redirectToRoute('jt_contact_us_orm_contact_index');
 		}
 
 		return $this->render("JTContactUsBundle:Contact:answer.html.twig", array(

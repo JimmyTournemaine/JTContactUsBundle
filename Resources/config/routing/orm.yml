@@ -1,0 +1,9 @@
+jt_contact_us_orm_contact_index:
+    path:     /
+    defaults: { _controller: "JTContactUsBundle:ORMContact:index" }
+    
+jt_contact_us_orm_contact_answer:
+    path:     /{id}
+    defaults: { _controller: "JTContactUsBundle:ORMContact:answer" }
+    requirements:
+        id: ([0-9]+)

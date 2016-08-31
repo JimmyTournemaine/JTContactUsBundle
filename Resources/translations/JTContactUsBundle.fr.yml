@@ -1,29 +1,45 @@
 contact:
     labels:
-        email: Your email
-        subject: Sujet
-        content: Message
-        send: Envoyer
-subject:
-    labels:
-        label: Intitulé
-        to: Destinataire
+        name:     Nom complet
+        email:    Email
+        subject:  Sujet
+        content:  Message
+        send:     Envoyer
+    flash:
+        sent:     Votre message a bien été envoyé.
+    form:
+        title:    Formulaire de contact
+orm:
     index:
-        title: Liste des sujets de contact
-        new: Ajouter un sujet
-        label: Intitulé
-        to: Destinataire
-        actions: Actions
-        edit: Modifier
-        delete: Supprimer
+        title:    Liste de contacts
+        name:     Interlocuteur
+        subject:  Sujet
+        at:       Date
+        answer:   Répondre
+answer:
+    title:        Répondre
+    labels:
+        content:  Votre réponse
+subject:
+    back:         Retour
+    labels:
+        label:    Intitulé
+        to:       Destinataire
+    index:
+        title:    Liste des sujets de contact
+        new:      Ajouter un sujet
+        label:    Intitulé
+        to:       Destinataire
+        actions:  Actions
+        edit:     Modifier
+        delete:   Supprimer
     new:
-        title: Nouveau sujet
-        submit: Ajouter
+        title:    Nouveau sujet
+        submit:   Ajouter
     edit:
-        title: Modifier
-        update: Mettre à jour
+        title:    Modifier
+        update:   Mettre à jour
     delete:
-        title: Suppression
-        confirm: Êtes vous certains de vouloir supprimer %label% ?
-        submit: Supprimer
-        back: Annuler
+        title:    Suppression
+        confirm:  Êtes vous certains de vouloir supprimer %label% ?
+        submit:   Supprimer
